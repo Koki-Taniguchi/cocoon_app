@@ -1,0 +1,34 @@
+<%= form_with(model: post, local: true) do |form| %>
+  <% if post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+
+
+  <%= form.label :body %>
+  <%= form.text_area :body %>
+
+  <div class="tags">
+    <%= form.fields_for :tags do |tag| %>
+      <%= render "tag_fields", f: tag %>    <!-- f: でブロック変数名指定　fをformなどにも変更可能 -->
+    <% end %>
+
+    <div class="links">
+      <%= link_to_add_association "add_tags", form, :tags %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
